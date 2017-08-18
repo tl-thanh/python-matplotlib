@@ -5,23 +5,28 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# read csv files
 ride_pd = pd.read_csv('ride_data.csv')
 ride_pd = ride_pd.sort_values('city')
 
 city_pd = pd.read_csv('city_data.csv')
 city_pd = city_pd.sort_values('city')
 
+# calculating sum of fares and city count by city from existing csv file, then rename columns, and then add column for average
 ride_group = ride_pd.groupby('city').agg({'city':'count', 'fare': 'sum'})
 ride_group = ride_group.rename(columns={'city': 'ride_count', 'fare': 'total_fare'})
 ride_group['avg_fare'] = ''
 
+# looping through rows to get avg fare
 for index, row in ride_group.iterrows():
     ride_group['avg_fare'] = ride_group['total_fare']/ride_group['ride_count']
 
 ride_group = ride_group.reset_index()
 
+# merge the 2 csv file (with calculations above) to a new dataframe with all data combined as one table
 cityride_pd = pd.merge(ride_group,city_pd,on='city',how='left')
 
+# create bubble graph of new csv file
 fig = plt.figure()
 ax = fig.add_subplot(111)
 sns.set_style('darkgrid')
@@ -39,9 +44,11 @@ lgnd.legendHandles[1]._sizes = [30]
 lgnd.legendHandles[2]._sizes = [30]
 plt.show()
 
+# create a new dataframe and sum all columns based on city type
 city_pie = cityride_pd.groupby(['type']).sum()
 city_pie = city_pie.reset_index()
 
+# create 3 pie charts to show various analysis based on city types
 fig = plt.figure()
 ax1 = fig.add_subplot(111)
 
