@@ -1,4 +1,8 @@
-# python-matplotlib
+## This repository contains python codes to analyze rides, fares, and drivers data.  These data were given in a CSV file format.  The results are then presented in a scatter graph and pie charts.
+
+# Below are the codes.
+
+--------------
 
 import numpy as np
 import pandas as pd
