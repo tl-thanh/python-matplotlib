@@ -6,9 +6,7 @@
 
 *Numpy*
 
-*pandas*
-
-*Numpy*
+*Pandas*
 
 *Matplotlib*
 
