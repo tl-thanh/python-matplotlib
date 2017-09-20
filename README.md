@@ -1,114 +1,12 @@
-## Python
-    - *Reading CSV files*
-    - *Numpy*
-    - *pandas*
-    - *Numpy*
-    - *Matplotlib*
-    - *Seaborn*    
-    - *Scatter plots*
-    - *Pie charts*
+#This repository contains python codes to analyze rides, fares, and drivers data.  These data were given in a CSV file format.  The results are then presented in a scatter graph and pie charts.
 
-    
+##Python
 
-# This repository contains python codes to analyze rides, fares, and drivers data.  These data were given in a CSV file format.  The results are then presented in a scatter graph and pie charts.
-
-# Below are the codes.
-
---------------
-
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-# read csv files
-ride_pd = pd.read_csv('ride_data.csv')
-ride_pd = ride_pd.sort_values('city')
-
-city_pd = pd.read_csv('city_data.csv')
-city_pd = city_pd.sort_values('city')
-
-# calculating sum of fares and city count by city from existing csv file, then rename columns, and then add column for average
-ride_group = ride_pd.groupby('city').agg({'city':'count', 'fare': 'sum'})
-ride_group = ride_group.rename(columns={'city': 'ride_count', 'fare': 'total_fare'})
-ride_group['avg_fare'] = ''
-
-# looping through rows to get avg fare
-for index, row in ride_group.iterrows():
-    ride_group['avg_fare'] = ride_group['total_fare']/ride_group['ride_count']
-
-ride_group = ride_group.reset_index()
-
-# merge the 2 csv file (with calculations above) to a new dataframe with all data combined as one table
-cityride_pd = pd.merge(ride_group,city_pd,on='city',how='left')
-
-# create bubble graph of new csv file
-fig = plt.figure()
-ax = fig.add_subplot(111)
-sns.set_style('darkgrid')
-
-ax.set_title('Pyber Ride Sharing Data')
-ax.set_xlabel('Total Number of Rides (per City)')
-ax.set_ylabel('Average Fare ($)')
-
-plt.scatter(cityride_pd['ride_count'][cityride_pd['type']=='Rural'],cityride_pd['avg_fare'][cityride_pd['type']=='Rural'],s=cityride_pd.driver_count*5,label='Rural',color='gold',alpha=.85)
-plt.scatter(cityride_pd['ride_count'][cityride_pd['type']=='Suburban'],cityride_pd['avg_fare'][cityride_pd['type']=='Suburban'],s=cityride_pd.driver_count*5,label='Suburban',color='lightskyblue',alpha=.85)
-plt.scatter(cityride_pd['ride_count'][cityride_pd['type']=='Urban'],cityride_pd['avg_fare'][cityride_pd['type']=='Urban'],s=cityride_pd.driver_count*5,label='Urban',color='lightcoral',alpha=.85)
-lgnd = plt.legend(fontsize='small', mode='Expanded', numpoints=1, scatterpoints=1, loc='best', title='City Types', labelspacing=0.5)
-lgnd.legendHandles[0]._sizes = [30]
-lgnd.legendHandles[1]._sizes = [30]
-lgnd.legendHandles[2]._sizes = [30]
-plt.show()
-
-# create a new dataframe and sum all columns based on city type
-city_pie = cityride_pd.groupby(['type']).sum()
-city_pie = city_pie.reset_index()
-
-# create 3 pie charts to show various analysis based on city types
-fig = plt.figure()
-ax1 = fig.add_subplot(111)
-
-labels = city_pie['type']
-sizes = city_pie['total_fare']
-colors = ['gold','lightskyblue','lightcoral']
-explode = (0,0,0.1)
-plt.pie(sizes,explode=explode,labels=labels,colors=colors,autopct='%1.1f%%',shadow=True,startangle=0)
-ax1.set_title('% of Total Fares by City Types')
-plt.axis('equal')
-lgnd = plt.legend(fontsize='small', mode='Expanded', numpoints=1, scatterpoints=1, loc='best', title='City Types', labelspacing=0.5)
-lgnd.legendHandles[0]._sizes = [30]
-lgnd.legendHandles[1]._sizes = [30]
-lgnd.legendHandles[2]._sizes = [30]
-plt.show()
-
-fig = plt.figure()
-ax2 = fig.add_subplot(111)
-
-labels = city_pie['type']
-sizes = city_pie['ride_count']
-colors = ['gold','lightskyblue','lightcoral']
-explode = (0,0,0.1)
-plt.pie(sizes,explode=explode,labels=labels,colors=colors,autopct='%1.1f%%',shadow=True,startangle=0)
-ax2.set_title('% of Total Rides by City Types')
-plt.axis('equal')
-lgnd = plt.legend(fontsize='small', mode='Expanded', numpoints=1, scatterpoints=1, loc='best', title='City Types', labelspacing=0.5)
-lgnd.legendHandles[0]._sizes = [30]
-lgnd.legendHandles[1]._sizes = [30]
-lgnd.legendHandles[2]._sizes = [30]
-plt.show()
-
-fig = plt.figure()
-ax3 = fig.add_subplot(111)
-
-labels = city_pie['type']
-sizes = city_pie['driver_count']
-colors = ['gold','lightskyblue','lightcoral']
-explode = (0,0,0.1)
-plt.pie(sizes,explode=explode,labels=labels,colors=colors,autopct='%1.1f%%',shadow=True,startangle=0)
-ax3.set_title('% of Total Drivers by City Types')
-plt.axis('equal')
-lgnd = plt.legend(fontsize='small', mode='Expanded', numpoints=1, scatterpoints=1, loc='best', title='City Types', labelspacing=0.5)
-lgnd.legendHandles[0]._sizes = [30]
-lgnd.legendHandles[1]._sizes = [30]
-lgnd.legendHandles[2]._sizes = [30]
-plt.show()
+    *Reading CSV files*
+    *Numpy*
+    pandas*
+    *Numpy*
+    *Matplotlib*
+    *Seaborn*    
+    *Scatter Bubble plots*
+    *Pie charts*
